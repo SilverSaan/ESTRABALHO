@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+
+<!--
+Consultar
+https://github.com/ExclamationLabs/struts-1.3.10_docs/blob/master/userGuide/configuration.html.md
+-->
+<struts-config>
+    <form-beans>
+        <form-bean name="FormStruts" type="pt.estg.es.struts.FormStruts"/>
+    </form-beans>
+
+    <action-mappings>
+
+        <!-- Todasestas rotas têm de ser invocadas com .do no final, exemplo /testeAoStruts1.do -->
+        <action path="/testeAoStruts1" forward="page.teste"/>
+        <action path="/testeAoStruts2" forward="page.teste2"/>
+        <action path="/testeAoStruts3" forward="page.teste3"/>
+
+        <action path="/testeAoFormStruts" forward="page.form-testes"/>
+
+        <!--
+            type: Controlador de MVC
+            scope: local onde fica guardado o FormBean do Struts, se for na sessão fica lá eternamente se for em request desaparece depois do ciclo de cliente-servidor-cliente
+            path: rota de chamada para invocar este controlador
+            name: FormBean para considerar no pedido, tem de corresponder ao FormBean especificado na secção  <form-beans> deste ficheiro
+            validate: em caso de true implica correr o método validate que estiver no Form, caso o validate devolva erros na lista, então a rota será para o input
+            input: pagina para rotear em caso de erros de validate, ou caso se devolva mapping.getInputForward() no Controlador
+
+            forwards: serão os encaminhamentos a partir do controlador
+        -->
+        <action path="/testeAoFormStrutsCtrl"
+                type="pt.estg.es.struts.ControllerStruts"
+                scope="request"
+                name="FormStruts"
+                validate="false"
+                input="page.form-testes">
+            <forward name="ok"  path="page.form-testes-response-ok"/>
+        </action>
+
+        <!--
+        Este controlador vai herdar de DispatchAction o que significa que é um controlador Multi-Metodo
+        o metodo deve vir num parametro de formulário do pedido HTTP, esse parametro é especificado
+        no atributo parameter, neste caso
+        parameter="dispatch" significa que terá de ser enviado um parametro dispatch=NOME_DO_METODO no controlador
+        -->
+        <action path="/testeAoFormStrutsCtrlDispatch"
+                type="pt.estg.es.struts.ControllerStrutsDispatch"
+                scope="request"
+                parameter="dispatch"
+                name="FormStruts"
+                validate="true"
+                input="page.form-testes">
+            <forward name="ok"  path="page.form-testes-response-ok"/>
+            <forward name="notok"  path="page.form-testes-response-not-ok"/>
+        </action>
+
+    </action-mappings>
+
+
+    <!-- Controllador que permite processar os Tiles tipo <action path="/testeAoStruts1" forward="page.teste"/> -->
+    <controller maxFileSize="50971520" processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+
+    <!-- ligação do plugin de MessageResources corresponde ao ficheiro MessageResources.properties -->
+    <message-resources parameter="MessageResources"/>
+
+    <!-- Configuração do plugin do Tiles (Layouts) -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config" value="/WEB-INF/tiles-config.xml" />
+        <set-property property="moduleAware" value="true" />
+    </plug-in>
+
+</struts-config>

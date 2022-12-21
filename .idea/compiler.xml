@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="kitchensink-ear-ejb" />
+        <module name="kitchensink-ear-ear" />
+        <module name="kitchensink-ear-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kitchensink-ear" target="1.8" />
+      <module name="kitchensink-ear-ear" target="1.8" />
+      <module name="kitchensink-ear-ejb" target="1.8" />
+      <module name="kitchensink-ear-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="kitchensink-ear-ear" options="-Xlint:unchecked" />
+      <module name="kitchensink-ear-ejb" options="-Xlint:unchecked" />
+      <module name="kitchensink-ear-web" options="-Xlint:unchecked" />
+    </option>
+  </component>
+</project>

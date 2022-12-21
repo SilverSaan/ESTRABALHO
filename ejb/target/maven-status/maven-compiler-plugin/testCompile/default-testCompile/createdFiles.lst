@@ -1,0 +1,3 @@
+org\jboss\as\quickstarts\kitchensink_ear\test\MemberRegistrationIT.class
+pt\estg\es\dao\UsuarioBdIT.class
+pt\estg\es\utils\UtilityTest.class

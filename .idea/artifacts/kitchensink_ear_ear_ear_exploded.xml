@@ -1,0 +1,67 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="kitchensink-ear-ear:ear exploded">
+    <output-path>$PROJECT_DIR$/ear/target/kitchensink-ear</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>kitchensink-ear-ear</module>
+        <packaging>ear</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="kitchensink-ear-ear/javaeeApplication/JavaEE" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/ear/target/kitchensink-ear/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/ear/src/main/application" />
+      <element id="archive" name="kitchensink-ear-ejb.jar">
+        <element id="artifact" artifact-name="kitchensink-ear-ejb:ejb exploded" />
+      </element>
+      <element id="directory" name="lib">
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/jboss/resteasy/resteasy-jackson-provider/3.0.24.Final-redhat-1/resteasy-jackson-provider-3.0.24.Final-redhat-1.jar" output-file-name="resteasy-jackson-provider.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar" output-file-name="jackson-core-asl.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar" output-file-name="jackson-mapper-asl.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-jaxrs/1.9.13/jackson-jaxrs-1.9.13.jar" output-file-name="jackson-jaxrs.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-xc/1.9.13/jackson-xc-1.9.13.jar" output-file-name="jackson-xc.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/jwebunit/jwebunit-htmlunit-plugin/3.3/jwebunit-htmlunit-plugin-3.3.jar" output-file-name="jwebunit-htmlunit-plugin.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/htmlunit/htmlunit/2.18/htmlunit-2.18.jar" output-file-name="htmlunit.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/xalan/xalan/2.7.2/xalan-2.7.2.jar" output-file-name="xalan.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/xalan/serializer/2.7.2/serializer-2.7.2.jar" output-file-name="serializer.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" output-file-name="commons-collections.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar" output-file-name="commons-lang3.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5.2.redhat-1/httpclient-4.5.2.redhat-1.jar" output-file-name="httpclient.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.4/httpcore-4.4.4.jar" output-file-name="httpcore.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpmime/4.5/httpmime-4.5.jar" output-file-name="httpmime.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.10/commons-codec-1.10.jar" output-file-name="commons-codec.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/htmlunit/htmlunit-core-js/2.17/htmlunit-core-js-2.17.jar" output-file-name="htmlunit-core-js.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar" output-file-name="xercesImpl.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar" output-file-name="xml-apis.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/nekohtml/nekohtml/1.9.22/nekohtml-1.9.22.jar" output-file-name="nekohtml.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/cssparser/cssparser/0.9.16/cssparser-0.9.16.jar" output-file-name="cssparser.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/w3c/css/sac/1.3/sac-1.3.jar" output-file-name="sac.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-client/9.2.12.v20150709/websocket-client-9.2.12.v20150709.jar" output-file-name="websocket-client.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-util/9.2.12.v20150709/jetty-util-9.2.12.v20150709.jar" output-file-name="org.eclipse.jetty-jetty-util.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-io/9.2.12.v20150709/jetty-io-9.2.12.v20150709.jar" output-file-name="jetty-io.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-common/9.2.12.v20150709/websocket-common-9.2.12.v20150709.jar" output-file-name="websocket-common.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-api/9.2.12.v20150709/websocket-api-9.2.12.v20150709.jar" output-file-name="websocket-api.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar" output-file-name="slf4j-api.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.6.6/jcl-over-slf4j-1.6.6.jar" output-file-name="jcl-over-slf4j.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" output-file-name="servlet-api.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/jwebunit/jwebunit-core/3.3/jwebunit-core-3.3.jar" output-file-name="jwebunit-core.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/regexp/regexp/1.3/regexp-1.3.jar" output-file-name="regexp.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" output-file-name="commons-lang.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/jwebunit/jwebunit-commons-tests/2.4/jwebunit-commons-tests-2.4.jar" output-file-name="jwebunit-commons-tests.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/junitperf/junitperf/1.8/junitperf-1.8.jar" output-file-name="junitperf.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/mortbay/jetty/jetty/6.1.12/jetty-6.1.12.jar" output-file-name="jetty.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/mortbay/jetty/jetty-util/6.1.12/jetty-util-6.1.12.jar" output-file-name="org.mortbay.jetty-jetty-util.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api-2.5/6.1.12/servlet-api-2.5-6.1.12.jar" output-file-name="servlet-api-2.5.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/commons-fileupload/commons-fileupload/1.2/commons-fileupload-1.2.jar" output-file-name="commons-fileupload.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.5.0.redhat-2/commons-io-2.5.0.redhat-2.jar" output-file-name="commons-io.jar" />
+      </element>
+      <element id="archive" name="kitchensink-ear-web.war">
+        <element id="artifact" artifact-name="kitchensink-ear-web:war exploded" />
+      </element>
+    </root>
+  </artifact>
+</component>

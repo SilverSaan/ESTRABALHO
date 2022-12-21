@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" name="kitchensink-ear-ejb:ejb">
+    <output-path>$PROJECT_DIR$/ejb/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>false</exploded>
+        <module>kitchensink-ear-ejb</module>
+        <packaging>ejb</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="archive" name="kitchensink-ear-ejb.jar">
+      <element id="artifact" artifact-name="kitchensink-ear-ejb:ejb exploded" />
+    </root>
+  </artifact>
+</component>

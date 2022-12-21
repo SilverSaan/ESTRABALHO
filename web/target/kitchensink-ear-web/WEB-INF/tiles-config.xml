@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions>
+
+
+    <definition name="base.layout" template="/layout.jsp">
+    </definition>
+
+    <definition name="page.teste" extends="base.layout">
+        <put name="body" value="/testeStruts.jsp" />
+    </definition>
+    <definition name="page.teste2" extends="base.layout">
+        <put name="body" value="/testeStruts2.jsp" />
+    </definition>
+    <definition name="page.teste3" extends="base.layout">
+        <put name="body" value="/testeStruts3.jsp" />
+    </definition>
+
+
+    <definition name="page.form-testes" extends="base.layout">
+        <put name="body" value="/formStrutsTestes.jsp" />
+    </definition>
+    <definition name="page.form-testes-response-ok" extends="base.layout">
+        <put name="body" value="/formStrutsTestesResponseOk.jsp" />
+    </definition>
+    <definition name="page.form-testes-response-not-ok" extends="base.layout">
+        <put name="body" value="/formStrutsTestesResponseNotOk.jsp" />
+    </definition>
+
+
+
+</tiles-definitions>
