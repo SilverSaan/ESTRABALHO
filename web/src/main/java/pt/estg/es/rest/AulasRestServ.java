@@ -1,6 +1,7 @@
 package pt.estg.es.rest;
 
 import pt.estg.es.model.Aulas;
+import pt.estg.es.model.Presenca;
 import pt.estgp.es.services.AulasServices;
 
 import javax.faces.bean.RequestScoped;
@@ -22,7 +23,6 @@ public class AulasRestServ {
 
     @Inject
     private AulasServices service;
-
 
     @GET
     @Path("/list")
@@ -64,5 +64,22 @@ public class AulasRestServ {
 
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/make-attendance")
+    public Response createAttendance(long aulaId, long AlunoId){
+        Response.ResponseBuilder builder;
+
+        try {
+            service.makeAttendance(AlunoId, aulaId);
+            builder = Response.ok();
+        }catch (Exception e){
+            Map<String, String> responseObject = new HashMap<>();
+            responseObject.put("Erro", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObject);
+        }
+        return builder.build();
+    }
 
 }
