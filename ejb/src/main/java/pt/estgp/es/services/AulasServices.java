@@ -76,6 +76,8 @@ public class AulasServices{
         attendance.setAula(Aula);
         attendance.setAluno(Aluno);
 
+        Aula.getPresencas().add(attendance);
+
         em.persist(attendance);
     }
 
