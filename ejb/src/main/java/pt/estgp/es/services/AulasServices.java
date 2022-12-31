@@ -34,6 +34,10 @@ public class AulasServices implements ServicesInterface<Aulas>{
         return  em.createQuery(aulasCQ).getResultList();
     }
 
+    public Aulas find(long id){
+        return em.find(Aulas.class, id);
+    }
+
     @Override
     public void create(Aulas incmng) {
         log.info("Criando Aula de" + incmng.getUnidadeCurricular());

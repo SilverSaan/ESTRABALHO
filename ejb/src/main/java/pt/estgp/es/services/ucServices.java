@@ -62,6 +62,10 @@ public class ucServices implements ServicesInterface<unidadeCurricular> {
         em.persist(incmng);
     }
 
+    public unidadeCurricular find(long id){
+        return em.find(unidadeCurricular.class, id);
+    }
+
     public org.hibernate.SessionFactory obtainSessionFactory()
     {
         return em.getEntityManagerFactory()
