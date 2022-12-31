@@ -1,9 +1,7 @@
 package pt.estg.es.rest;
 
 import pt.estg.es.model.Aulas;
-import pt.estg.es.model.unidadeCurricular;
 import pt.estgp.es.services.AulasServices;
-import pt.estgp.es.services.ucServices;
 
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
@@ -45,9 +43,10 @@ public class AulasRestServ {
         return aula;
     }
 
-    @GET
-    @Path("/create")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/create")
     public Response createAula(Aulas aula){
         Response.ResponseBuilder builder;
 

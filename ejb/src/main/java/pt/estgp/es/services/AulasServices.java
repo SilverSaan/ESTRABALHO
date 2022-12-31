@@ -1,6 +1,8 @@
 package pt.estgp.es.services;
 
 import pt.estg.es.model.Aulas;
+import pt.estg.es.model.Presenca;
+import pt.estg.es.model.Usuario;
 import pt.estg.es.model.unidadeCurricular;
 import pt.estg.es.security.AuditAnnotation;
 
@@ -61,4 +63,24 @@ public class AulasServices implements ServicesInterface<Aulas>{
         log.info("A Remover Aula" + entity.getData() + ": " + entity.getUnidadeCurricular());
         em.remove(entity);
     }
+
+    /**
+     * Eu não tenho ideia se isso vai funcionar - Pedro
+     * Supostamente cria uma tabela de presença com o aluno e a aula
+     * @param userID id do Usuario Aluno
+     * @param aulaID id da Aula em questão
+     */
+    public void makeAttendance(long userID, long aulaID){
+        Usuario Aluno = em.find(Usuario.class, userID);
+        Aulas Aula = em.find(Aulas.class, aulaID);
+
+        Presenca attendance = new Presenca();
+        attendance.getId().setAulaId(aulaID);
+        attendance.getId().setAlunoId(userID);
+        attendance.setAula(Aula);
+        attendance.setAluno(Aluno);
+
+        em.persist(attendance);
+    }
+
 }
