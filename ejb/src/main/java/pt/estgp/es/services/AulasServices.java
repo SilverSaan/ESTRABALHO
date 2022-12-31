@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
-public class AulasServices implements ServicesInterface<Aulas>{
+public class AulasServices{
 
     @Inject
     private Logger log;
@@ -24,7 +24,6 @@ public class AulasServices implements ServicesInterface<Aulas>{
     @Inject
     private EntityManager em;
 
-    @Override
     @AuditAnnotation(conf = "findAll")
     public List<Aulas> findAll() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -40,7 +39,6 @@ public class AulasServices implements ServicesInterface<Aulas>{
         return em.find(Aulas.class, id);
     }
 
-    @Override
     public void create(Aulas incmng) {
         log.info("Criando Aula de" + incmng.getUnidadeCurricular());
         log.info("Na data de: " + incmng.getData());
@@ -48,7 +46,6 @@ public class AulasServices implements ServicesInterface<Aulas>{
         em.persist(incmng);
     }
 
-    @Override
     public void update(long id, Aulas incmng) {
         Aulas entity = em.find(Aulas.class, id);
         entity.setData(incmng.getData());
@@ -57,7 +54,6 @@ public class AulasServices implements ServicesInterface<Aulas>{
         entity.setPresencas(incmng.getPresencas());
     }
 
-    @Override
     public void remove(long id) {
         Aulas entity = em.find(Aulas.class, id);
         log.info("A Remover Aula" + entity.getData() + ": " + entity.getUnidadeCurricular());

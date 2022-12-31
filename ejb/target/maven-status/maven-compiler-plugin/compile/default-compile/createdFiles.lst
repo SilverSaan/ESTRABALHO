@@ -3,8 +3,9 @@ pt\estg\es\model\Cursos.class
 pt\estg\es\model\unidadeCurricular_.class
 org\jboss\as\quickstarts\kitchensink_ear\model\Member_.class
 pt\estg\es\model\Aulas_.class
-pt\estgp\es\services\ServicesInterface.class
+pt\estgp\es\services\CursosServices.class
 pt\estg\es\model\PresencaID.class
+pt\estgp\es\services\FatoParticipacaoService.class
 pt\estg\es\model\Presenca_.class
 pt\estg\es\util\StringsUtils.class
 pt\estg\es\model\Aulas.class

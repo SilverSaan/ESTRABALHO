@@ -3,6 +3,7 @@ package pt.estgp.es.services;
 import pt.estg.es.model.Aulas;
 import pt.estg.es.model.Cursos;
 import pt.estg.es.model.unidadeCurricular;
+import pt.estg.es.security.AuditAnnotation;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
-public class CursosServices implements ServicesInterface<Cursos> {
+public class CursosServices {
 
     @Inject
     private Logger log;
@@ -22,8 +23,7 @@ public class CursosServices implements ServicesInterface<Cursos> {
     @Inject
     private EntityManager em;
 
-
-    @Override
+    @AuditAnnotation(conf = "findAll")
     public List<Cursos> findAll() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -34,7 +34,6 @@ public class CursosServices implements ServicesInterface<Cursos> {
         return  em.createQuery(cursosCQ).getResultList();
     }
 
-    @Override
     public void remove(long id) {
         Cursos entity = em.find(Cursos.class, id);
         log.info("A Remover Curso" + entity.getName() + ": " + entity.getCode());
@@ -45,7 +44,7 @@ public class CursosServices implements ServicesInterface<Cursos> {
         return em.find(Cursos.class, id);
     }
 
-    @Override
+
     public void update(long id, Cursos incmng) {
         Cursos entity = em.find(Cursos.class, id);
         entity.setCode(incmng.getCode());
@@ -54,7 +53,7 @@ public class CursosServices implements ServicesInterface<Cursos> {
         entity.setUcs(incmng.getUcs());
     }
 
-    @Override
+
     public void create(Cursos incmng) {
         log.info("A Criar Curso " + incmng.getName());
         em.persist(incmng);

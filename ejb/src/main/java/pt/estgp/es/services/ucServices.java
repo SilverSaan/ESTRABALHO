@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
-public class ucServices implements ServicesInterface<unidadeCurricular> {
+public class ucServices{
 
 
     @Inject
@@ -22,7 +22,6 @@ public class ucServices implements ServicesInterface<unidadeCurricular> {
     @Inject
     private EntityManager em;
 
-    @Override
     @AuditAnnotation(conf = "find All")
     public List<unidadeCurricular> findAll() {
         log.info("Listando todas UC");
@@ -35,14 +34,12 @@ public class ucServices implements ServicesInterface<unidadeCurricular> {
         return em.createQuery(criteria).getResultList();
     }
 
-    @Override
     public void remove(long id) {
         unidadeCurricular entity = em.find(unidadeCurricular.class, id);
         log.info("A Remover UC" + entity.getNome() + ": " + entity.getCode());
         em.remove(entity);
     }
 
-    @Override
     public void update(long id, unidadeCurricular incmng) {
         unidadeCurricular entity = em.find(unidadeCurricular.class, id);
         log.info("A Alterar UnidadeCurricular \nEntidade Curricular anterior:" +
@@ -57,7 +54,6 @@ public class ucServices implements ServicesInterface<unidadeCurricular> {
         em.merge(entity);
     }
 
-    @Override
     public void create(unidadeCurricular incmng) {
         em.persist(incmng);
     }

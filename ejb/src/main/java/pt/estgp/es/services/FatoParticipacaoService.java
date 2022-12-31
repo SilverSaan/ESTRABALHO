@@ -3,6 +3,7 @@ package pt.estgp.es.services;
 import pt.estg.es.model.Cursos;
 import pt.estg.es.model.fatoParticipacao;
 import pt.estg.es.model.unidadeCurricular;
+import pt.estg.es.security.AuditAnnotation;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,12 +14,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
-public class FatoParticipacaoService implements ServicesInterface<fatoParticipacao> {
+public class FatoParticipacaoService {
 
     private Logger log;
 
     private EntityManager em;
 
+    @AuditAnnotation(conf = "findAll")
     public List<fatoParticipacao> findAll(){
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -39,7 +41,6 @@ public class FatoParticipacaoService implements ServicesInterface<fatoParticipac
         return em.find(fatoParticipacao.class, id);
     }
 
-    @Override
     public void update(long id, fatoParticipacao incmng) {
         fatoParticipacao entity = em.find(fatoParticipacao.class, id);
         entity.setPresenca(incmng.getPresenca());
