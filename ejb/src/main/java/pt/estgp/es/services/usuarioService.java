@@ -16,6 +16,7 @@
  */
 package pt.estgp.es.services;
 
+import pt.estg.es.model.Presenca;
 import pt.estg.es.model.Usuario;
 import pt.estg.es.security.AuditAnnotation;
 import pt.estg.es.security.Auditavel;
@@ -27,6 +28,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 //import org.jboss.as.quickstarts.kitchensink_ear.model.Aluno_;
@@ -91,6 +93,21 @@ public class usuarioService {
         //Usando o Hibernate
         //obtainSessionFactory().getCurrentSession().save(member);
 
+    }
+
+    public Set<Presenca> getAttendanceList(Long UsuarioId){
+        Usuario aluno = em.find(Usuario.class,UsuarioId);
+        return aluno.getPresencas();
+
+
+    }
+
+    public Usuario validateLoginInformation(String username, String password){
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Usuario> query = builder.createQuery(Usuario.class);
+
+        return (Usuario) em.createQuery("SELECT u from Usuario u where u.nome = :username and u.password = :password").
+                setParameter("username", username).setParameter("password", password).getSingleResult();
     }
 
     public org.hibernate.SessionFactory obtainSessionFactory()
