@@ -1,4 +1,0 @@
-
-<div>
-TESTE AOS LAYOUTS DO STRUTS 2
-</div>

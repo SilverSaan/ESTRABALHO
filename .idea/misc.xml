@@ -4,6 +4,7 @@
     <file type="ejb" url="file://$PROJECT_DIR$/ejb" />
     <file type="javaeeApplication" url="file://$PROJECT_DIR$/ear" />
     <file type="web" url="file://$PROJECT_DIR$/web" />
+    <type id="AngularCLI" />
   </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />

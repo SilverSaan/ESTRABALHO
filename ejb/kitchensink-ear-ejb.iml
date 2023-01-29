@@ -4,6 +4,7 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="primary" value="fda5e5b6-2d65-419d-9d37-df6cc328f48f" />
         </datasource-mapping>
@@ -82,5 +83,6 @@
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-jaxrs:1.9.13" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-xc:1.9.13" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.interceptor:jboss-interceptor-api:3.1.0-CR3" level="project" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
   </component>
 </module>

@@ -141,6 +141,13 @@ public class EsRestService {
         return builder.build();
     }
 
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Usuario verifyLogin(Login info){
+        return servico.validateLoginInformation(info.getUsername(), info.getPassword());
+    }
     /*
     private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
         // Create a bean validator and check for issues.

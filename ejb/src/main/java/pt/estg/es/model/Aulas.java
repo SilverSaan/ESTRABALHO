@@ -1,5 +1,7 @@
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +22,7 @@ public class Aulas implements Serializable {
     unidadeCurricular unidadeCurricular;
 
     @OneToMany(mappedBy = "aula")
+            @JsonBackReference
     Set<Presenca> presencas;
 
     @Column(nullable = false)

@@ -16,6 +16,7 @@
  */
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -39,6 +40,9 @@ public class Usuario implements Serializable {
     @Column(name = "numero", nullable = false)
     private Integer numero;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Email
     @Column(name = "email")
     private String email;
@@ -47,12 +51,14 @@ public class Usuario implements Serializable {
     private Boolean isTeacher = false;
 
     @OneToMany(mappedBy = "aluno")
+            @JsonBackReference
     Set<Presenca> presencas;
 
     @ManyToMany
             @JoinTable(name = "inscricoes",
             joinColumns = @JoinColumn(name = "aluno_id"),
             inverseJoinColumns = @JoinColumn(name = "uc_id"))
+            @JsonBackReference
     Set<unidadeCurricular> ucs;
 
     public Long getId() {
@@ -101,6 +107,22 @@ public class Usuario implements Serializable {
 
     public void setPresencas(Set<Presenca> presencas) {
         this.presencas = presencas;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<unidadeCurricular> getUcs() {
+        return ucs;
+    }
+
+    public void setUcs(Set<unidadeCurricular> ucs) {
+        this.ucs = ucs;
     }
 }
 
