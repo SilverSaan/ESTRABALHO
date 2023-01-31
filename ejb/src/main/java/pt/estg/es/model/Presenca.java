@@ -1,6 +1,9 @@
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 
@@ -15,12 +18,14 @@ public class Presenca {
             @MapsId("alunoId")
             @JoinColumn(name = "aluno_id")
             @JsonManagedReference
+            @JsonIgnore
     Usuario aluno;
 
     @ManyToOne
             @MapsId("aulaId")
             @JoinColumn(name = "aula_id")
             @JsonManagedReference
+            @JsonIgnore
     Aulas aula;
 
     public PresencaID getId() {

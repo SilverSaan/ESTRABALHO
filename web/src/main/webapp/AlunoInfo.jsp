@@ -21,37 +21,71 @@
 <div class="container-fluid" ng-app="profileApp" ng-model="Student" ng-controller="profileCtrl">
     <h1>Perfil do Aluno</h1>
     <div class="row">
-        <div class="col-sm-1" style="background-color:white;"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-8">
+
+        </div>
+
+
+        <div class="col-sm-2" style="background-color:white;">
             <p style="background-color:darkgray; font-size: 32px; text-align: center">{{Student.nome}}  </p>
             <br>
             <p style="background-color:darkgray; font-size: 32px; text-align: center">{{Student.numero}}</p>
         </div>
-
-        <div class="col-sm-1" style="background-color:white;"></div>
-
-        <div class="col-sm-1" style="justify-content: center">
+        <div class="col-sm-2">
             <img src="https://cdn.onlinewebfonts.com/svg/img_218090.png"
-            class="img-circle" alt="user Picture" style="width:120px;" >
+                 class="img-circle" alt="user Picture" style="width:120px;" >
             </img>
         </div>
-
-        <div class="col-sm-1" style="background-color:white;"></div>
-        <div class="col-sm-4" style="background-color:yellow;">.lista de presencas
-            <table class="table table-hover">
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>Inscrições do Aluno</h3>
+            <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>Data</th>
                     <th>Unidade Curricular</th>
-                    <th>Fatos de Participação</th>
+                    <th>Codigo</th>
+                    <th>Professor</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat=""></tr>
+                <tr ng-repeat="uc in Student.ucs" >
+                    <td><a href="#UC">{{uc.nome}}</a></td>
+                    <td>{{uc.code}}</td>
+                    <td>{{uc.docente.nome}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-3">
+            <h3>Historico de Presenças</h3>
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                <tr>
+                    <th>Data da Aula</th>
+                    <th>Unidade Curricular</th>
+                    <th>Professor</th>
+                </tr>
+                </thead>
+
+            </table>
+        </div>
+
     </div>
+
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <!-- Trabalhar no mapa de Presenças -->
+
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
 </div>
 
 

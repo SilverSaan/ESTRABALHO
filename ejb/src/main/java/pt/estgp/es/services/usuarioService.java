@@ -24,9 +24,11 @@ import pt.estg.es.security.Auditavel;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.QueryHint;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -53,6 +55,7 @@ public class usuarioService {
 
 
     public Usuario loadById(Long id) {
+
         return em.find(Usuario.class, id);
     }
 
@@ -95,17 +98,13 @@ public class usuarioService {
 
     }
 
-    public Set<Presenca> getAttendanceList(Long UsuarioId){
-        Usuario aluno = em.find(Usuario.class,UsuarioId);
-        return aluno.getPresencas();
-
+    public Set<Presenca> getListaPresenca(Long userID){
+        Usuario user = em.find(Usuario.class,userID);
+        return user.getPresencas();
 
     }
 
     public Usuario validateLoginInformation(String username, String password){
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Usuario> query = builder.createQuery(Usuario.class);
-
         return (Usuario) em.createQuery("SELECT u from Usuario u where u.nome = :username and u.password = :password").
                 setParameter("username", username).setParameter("password", password).getSingleResult();
     }

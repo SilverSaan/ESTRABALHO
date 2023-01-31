@@ -16,6 +16,8 @@
  */
 package pt.estg.es.rest;
 
+import pt.estg.es.model.Aulas;
+import pt.estg.es.model.Presenca;
 import pt.estg.es.model.Usuario;
 import pt.estgp.es.services.usuarioService;
 
@@ -148,6 +150,14 @@ public class EsRestService {
     public Usuario verifyLogin(Login info){
         return servico.validateLoginInformation(info.getUsername(), info.getPassword());
     }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/partic")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<Presenca> loadPresenca(@PathParam("id") long id){
+        return servico.getListaPresenca(id);
+    }
+
     /*
     private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
         // Create a bean validator and check for issues.

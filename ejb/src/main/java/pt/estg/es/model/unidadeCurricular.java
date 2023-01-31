@@ -1,5 +1,9 @@
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -24,6 +28,7 @@ public class unidadeCurricular implements Serializable {
     String nome;
 
     @ManyToMany(mappedBy = "ucs")
+    @JsonBackReference()
     Set<Usuario> alunos;
 
     public long getId() {

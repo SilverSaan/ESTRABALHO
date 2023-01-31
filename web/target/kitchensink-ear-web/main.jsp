@@ -35,12 +35,12 @@
     <div ng-app="alunoApp" ng-controller="alunoControl" ng-init="usuarios=null" style="justify-content: center; text-align: center">
         <!-- Colocar um ng-if aqui depois, que cheque se o Usuario é professor -->
         <br>
-        Search by Name
+        Procurar por Nome
         <br>
         <input type="text" ng-model="userSearch">
         <p style="color: orange">Nome do Aluno</p>
         <div class="tbl-content">
-            <table cellpadding="0" cellspacing="0" border="0" style="table-layout: auto; ">
+            <table style="table-layout: auto; ">
                 <tr ng-repeat="x in usuarios |filter: {'nome': userSearch} | orderBy: 'numero'" ng-model="usuarios">
                     <td>{{x.nome}} - {{x.numero}}</td>
                     <td><button class="btnselectastudent" id="btn{{x.id}}"></button></td>
