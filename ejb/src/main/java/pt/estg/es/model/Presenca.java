@@ -1,9 +1,6 @@
 package pt.estg.es.model;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,17 +11,16 @@ public class Presenca {
     @EmbeddedId
     PresencaID id;
 
-
     @ManyToOne
-            @MapsId("alunoId")
-            @JoinColumn(name = "aluno_id")
-            @JsonBackReference
+    @MapsId("alunoId")
+    @JoinColumn(name = "aluno_id")
+    @JsonBackReference
     Usuario aluno;
 
     @ManyToOne
-            @MapsId("aulaId")
-            @JoinColumn(name = "aula_id")
-            @JsonBackReference
+    @MapsId("aulaId")
+    @JoinColumn(name = "aula_id")
+    @JsonBackReference
     Aulas aula;
 
     @OneToMany(fetch = FetchType.EAGER)
