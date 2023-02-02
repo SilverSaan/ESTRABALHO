@@ -1,5 +1,6 @@
 package pt.estg.es.rest;
 
+import pt.estg.es.DTO.UsuarioDTO;
 import pt.estg.es.model.Usuario;
 import pt.estg.es.model.unidadeCurricular;
 import pt.estgp.es.services.ucServices;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Path("/unCurricular")
@@ -64,6 +66,13 @@ public class UCRestService {
 
         return builder.build();
 
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id:[0-9][0-9]*}/inscritos")
+    public Set<UsuarioDTO> getInscritos(@PathParam("id") long ucId){
+        return service.getInscritos(ucId);
     }
 
 

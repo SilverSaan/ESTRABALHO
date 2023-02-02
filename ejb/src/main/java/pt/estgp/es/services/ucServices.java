@@ -1,15 +1,17 @@
 package pt.estgp.es.services;
 
+import pt.estg.es.DTO.UsuarioDTO;
+import pt.estg.es.model.Usuario;
 import pt.estg.es.model.unidadeCurricular;
 import pt.estg.es.security.AuditAnnotation;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Stateless
@@ -66,6 +68,11 @@ public class ucServices{
     {
         return em.getEntityManagerFactory()
                 .unwrap(org.hibernate.SessionFactory.class);
+    }
+
+    public Set<UsuarioDTO> getInscritos(long UCId){
+        unidadeCurricular uc = em.find(unidadeCurricular.class, UCId);
+        return uc.getAlunosDTO();
     }
 
 

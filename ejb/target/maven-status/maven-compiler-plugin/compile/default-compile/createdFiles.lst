@@ -16,6 +16,7 @@ org\jboss\as\quickstarts\kitchensink_ear\data\MemberListProducer.class
 pt\estg\es\model\PresencaID_.class
 org\jboss\as\quickstarts\kitchensink_ear\service\MemberRegistration.class
 pt\estg\es\model\fatoParticipacao.class
+pt\estg\es\model\CustomDateSerializer.class
 pt\estg\es\model\Facts\AbstractFatoParticipacao.class
 pt\estgp\es\services\AulasServices.class
 pt\estg\es\model\Usuario.class
@@ -27,4 +28,5 @@ pt\estgp\es\services\usuarioService.class
 pt\estg\es\model\unidadeCurricular.class
 pt\estg\es\security\AuditAnnotation.class
 pt\estg\es\model\Usuario_.class
+pt\estg\es\DTO\UsuarioDTO.class
 pt\estg\es\model\Presenca.class

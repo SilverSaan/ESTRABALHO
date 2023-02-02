@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Presenca {
@@ -17,16 +18,17 @@ public class Presenca {
     @ManyToOne
             @MapsId("alunoId")
             @JoinColumn(name = "aluno_id")
-            @JsonManagedReference
-            @JsonIgnore
+            @JsonBackReference
     Usuario aluno;
 
     @ManyToOne
             @MapsId("aulaId")
             @JoinColumn(name = "aula_id")
-            @JsonManagedReference
-            @JsonIgnore
+            @JsonBackReference
     Aulas aula;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    Set<fatoParticipacao> facts;
 
     public PresencaID getId() {
         return id;

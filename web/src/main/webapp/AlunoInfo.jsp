@@ -18,7 +18,7 @@
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
 
-<div class="container-fluid" ng-app="profileApp" ng-model="Student" ng-controller="profileCtrl">
+<div class="container-fluid" ng-app="profileApp" ng-model="Student" ng-init="Student = null" ng-controller="profileCtrl">
     <h1>Perfil do Aluno</h1>
     <div class="row">
         <div class="col-sm-8">
@@ -39,9 +39,10 @@
     </div>
     <br/>
     <div class="row">
-        <div class="col-sm-8">
+
+        <div class="col-sm-8" style="height: 500px; overflow-y: scroll">
             <h3>Inscrições do Aluno</h3>
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover table-striped" >
                 <thead>
                 <tr>
                     <th>Unidade Curricular</th>
@@ -60,9 +61,9 @@
         </div>
         <div class="col-sm-1"></div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3" style="height: 500px; overflow-y: scroll">
             <h3>Historico de Presenças</h3>
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" >
 
                 <thead>
                 <tr>
@@ -71,6 +72,19 @@
                     <th>Professor</th>
                 </tr>
                 </thead>
+                <tbody>
+                <tr ng-repeat="pres in Student.presencas">
+                    <td>
+                        <a ng-click="goToAulaInfo(pres.id)">
+                        {{pres.data.dayOfMonth}}/{{pres.data.monthValue}}/{{pres.data.year}}
+                        </a>
+                    </td>
+                    <td>{{pres.unidadeCurricular.nome}}</td>
+                    <td>{{pres.unidadeCurricular.docente.nome}}</td>
+
+                </tr>
+
+                </tbody>
 
             </table>
         </div>
@@ -80,7 +94,6 @@
     <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <!-- Trabalhar no mapa de Presenças -->
 
         </div>
         <div class="col-sm-1"></div>
@@ -102,15 +115,38 @@
         })
     }])
 
-    app.controller('profileCtrl', function ($scope, $http, $location){
+    app.controller('profileCtrl', function ($scope, $http, $location, $window){
         //$locationProvider.html5Mode(true);
         var userId = $location.search().id;
         console.log($location.search())
 
+        $scope.testNum = 50;
+        $scope.getNum = function (num){
+            return new Array(num);
+        }
+
+        $scope.goToAulaInfo = function (id){
+            $window.location.href ="<%=request.getContextPath()%>/aulasInfo.jsp?id=" + id;
+
+        }
+
         $http.get("<%=request.getContextPath()%>/rs/usuarios/"+userId).then(function (response){
             $scope.Student = response.data;
-        })
+            return $http.get("<%=request.getContextPath()%>/rs/usuarios/"+userId+"/ucs").then(function (response){
+                $scope.Student.ucs = response.data;
+                return $http.get("<%=request.getContextPath()%>/rs/usuarios/"+userId+"/partic").then(function (response){
+                    $scope.Student.presencas = response.data;
+                })
+            })
+        });
+
+
+
+
+
     })
+
+
 </script>
 
 </body>

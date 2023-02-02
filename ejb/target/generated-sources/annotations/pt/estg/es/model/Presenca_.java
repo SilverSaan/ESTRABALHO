@@ -1,6 +1,7 @@
 package pt.estg.es.model;
 
 import javax.annotation.Generated;
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -11,6 +12,7 @@ public abstract class Presenca_ {
 	public static volatile SingularAttribute<Presenca, Usuario> aluno;
 	public static volatile SingularAttribute<Presenca, Aulas> aula;
 	public static volatile SingularAttribute<Presenca, PresencaID> id;
+	public static volatile SetAttribute<Presenca, fatoParticipacao> facts;
 
 }
 

@@ -2,9 +2,13 @@ package pt.estg.es.model;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonView;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,15 +23,20 @@ public class Aulas implements Serializable {
     @Column(name = "nome", nullable = false)
     String nome;
     */
-    @ManyToOne(targetEntity = unidadeCurricular.class)
+    @ManyToOne(targetEntity = unidadeCurricular.class, fetch = FetchType.EAGER)
     unidadeCurricular unidadeCurricular;
 
-    @OneToMany(mappedBy = "aula")
-            @JsonBackReference
+    @OneToMany(mappedBy = "aula", fetch = FetchType.EAGER)
+            @JsonManagedReference
     Set<Presenca> presencas;
 
+
     @Column(nullable = false)
-    Date data;
+
+    LocalDateTime data;
+
+    @Column(nullable = true)
+    String sumario;
 
     public long getId() {
         return id;
@@ -45,11 +54,11 @@ public class Aulas implements Serializable {
         this.unidadeCurricular = unidadeCurricular;
     }
 
-    public Date getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 
@@ -61,5 +70,11 @@ public class Aulas implements Serializable {
         this.presencas = presencas;
     }
 
-
+    public String getSumario() {
+        return sumario;
     }
+
+    public void setSumario(String sumario) {
+        this.sumario = sumario;
+    }
+}

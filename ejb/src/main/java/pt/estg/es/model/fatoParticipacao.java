@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 //@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,name = "Fact_Disc", length = 5)
 @Entity
-public class fatoParticipacao {
+public class fatoParticipacao implements Serializable {
 
     @Id
     long factID;
@@ -19,7 +19,6 @@ public class fatoParticipacao {
 
     @Column
     long evaluation;
-
 
     public long getFactID() {
         return factID;

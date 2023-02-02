@@ -2,6 +2,8 @@ package pt.estg.es.rest;
 
 import pt.estg.es.model.Aulas;
 import pt.estg.es.model.Presenca;
+import pt.estg.es.model.PresencaID;
+import pt.estg.es.model.Usuario;
 import pt.estgp.es.services.AulasServices;
 
 import javax.faces.bean.RequestScoped;
@@ -68,11 +70,11 @@ public class AulasRestServ {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/make-attendance")
-    public Response createAttendance(long aulaId, long AlunoId){
+    public Response createAttendance(PresencaID id){
         Response.ResponseBuilder builder;
 
         try {
-            service.makeAttendance(AlunoId, aulaId);
+            service.makeAttendance(id);
             builder = Response.ok();
         }catch (Exception e){
             Map<String, String> responseObject = new HashMap<>();
@@ -81,5 +83,31 @@ public class AulasRestServ {
         }
         return builder.build();
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/delete-Attendance")
+    public Response deleteAttendance(PresencaID presencaID){
+        Response.ResponseBuilder builder;
+
+        try {
+            service.deleteAttendance(presencaID);
+            builder = Response.ok();
+        }catch (Exception e){
+            Map<String, String> responseObject = new HashMap<>();
+            responseObject.put("Erro", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObject);
+        }
+        return builder.build();
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/presenca")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Usuario> alunosPresentes(@PathParam("id") long Aulaid){
+       return service.getAlunosPresentes(Aulaid);
+
+    }
+
 
 }

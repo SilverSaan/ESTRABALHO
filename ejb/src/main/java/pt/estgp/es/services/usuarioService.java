@@ -16,6 +16,7 @@
  */
 package pt.estgp.es.services;
 
+import pt.estg.es.model.Aulas;
 import pt.estg.es.model.Presenca;
 import pt.estg.es.model.Usuario;
 import pt.estg.es.security.AuditAnnotation;
@@ -32,6 +33,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 //import org.jboss.as.quickstarts.kitchensink_ear.model.Aluno_;
 
@@ -98,10 +100,9 @@ public class usuarioService {
 
     }
 
-    public Set<Presenca> getListaPresenca(Long userID){
+    public Set<Aulas> getListaPresenca(Long userID){
         Usuario user = em.find(Usuario.class,userID);
-        return user.getPresencas();
-
+        return user.getPresencas().stream().map(Presenca::getAula).collect(Collectors.toSet());
     }
 
     public Usuario validateLoginInformation(String username, String password){

@@ -19,6 +19,7 @@ package pt.estg.es.rest;
 import pt.estg.es.model.Aulas;
 import pt.estg.es.model.Presenca;
 import pt.estg.es.model.Usuario;
+import pt.estg.es.model.unidadeCurricular;
 import pt.estgp.es.services.usuarioService;
 
 import javax.enterprise.context.RequestScoped;
@@ -151,11 +152,20 @@ public class EsRestService {
         return servico.validateLoginInformation(info.getUsername(), info.getPassword());
     }
 
+
+
     @GET
     @Path("/{id:[0-9][0-9]*}/partic")
     @Produces(MediaType.APPLICATION_JSON)
-    public Set<Presenca> loadPresenca(@PathParam("id") long id){
+    public Set<Aulas> loadPresencas(@PathParam("id") long id){
         return servico.getListaPresenca(id);
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/ucs")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<unidadeCurricular> loadUCInscrito(@PathParam("id") long id){
+        return servico.loadById(id).getUcs();
     }
 
     /*

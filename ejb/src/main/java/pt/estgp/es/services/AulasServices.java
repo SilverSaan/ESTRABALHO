@@ -1,9 +1,6 @@
 package pt.estgp.es.services;
 
-import pt.estg.es.model.Aulas;
-import pt.estg.es.model.Presenca;
-import pt.estg.es.model.Usuario;
-import pt.estg.es.model.unidadeCurricular;
+import pt.estg.es.model.*;
 import pt.estg.es.security.AuditAnnotation;
 
 import javax.ejb.Stateless;
@@ -13,7 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Stateless
 public class AulasServices{
@@ -63,16 +62,14 @@ public class AulasServices{
     /**
      * Eu não tenho ideia se isso vai funcionar - Pedro
      * Supostamente cria uma tabela de presença com o aluno e a aula
-     * @param userID id do Usuario Aluno
-     * @param aulaID id da Aula em questão
+     * @param id id da Presença
      */
-    public void makeAttendance(long userID, long aulaID){
-        Usuario Aluno = em.find(Usuario.class, userID);
-        Aulas Aula = em.find(Aulas.class, aulaID);
+    public void makeAttendance(PresencaID id){
+        Usuario Aluno = em.find(Usuario.class, id.getAlunoId());
+        Aulas Aula = em.find(Aulas.class, id.getAulaId());
 
         Presenca attendance = new Presenca();
-        attendance.getId().setAulaId(aulaID);
-        attendance.getId().setAlunoId(userID);
+        attendance.setId(id);
         attendance.setAula(Aula);
         attendance.setAluno(Aluno);
 
@@ -81,6 +78,19 @@ public class AulasServices{
         em.persist(attendance);
     }
 
+    public void deleteAttendance(PresencaID a){
+        Aulas aula = em.find(Aulas.class,a.getAulaId());
+        Presenca presenca = em.find(Presenca.class, a);
+        aula.getPresencas().remove(presenca);
+        em.remove(presenca);
+
+    }
+
+    public List<Usuario> getAlunosPresentes(long id){
+        Aulas aula = em.find(Aulas.class, id);
+        Set<Presenca> presencas = aula.getPresencas();
+        return presencas.stream().map(Presenca::getAluno).collect(Collectors.toList());
+    }
 
 
 }

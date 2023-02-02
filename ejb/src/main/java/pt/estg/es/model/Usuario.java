@@ -63,7 +63,7 @@ public class Usuario implements Serializable {
             @JoinTable(name = "inscricoes",
             joinColumns = @JoinColumn(name = "aluno_id"),
             inverseJoinColumns = @JoinColumn(name = "uc_id"))
-            @JsonManagedReference
+            @JsonBackReference
     Set<unidadeCurricular> ucs;
 
     public Long getId() {

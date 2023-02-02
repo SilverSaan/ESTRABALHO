@@ -107,10 +107,12 @@
 </head>
 <body>
 <div class="topnav">
-    <a class="active" href="<%=request.getContextPath()%>/main.jsp">Main Page</a>
-    <a href="#Page1">Pagina_1</a>
-    <a href="#Page2">Pagina_2</a>
-    <a href="#Page3">Pagina_3</a>
+    <a class="active" href="<%=request.getContextPath()%>/main.jsp" id="nav1">
+        Main Page
+    </a>
+    <a href="#Page1" id="nav2">Pagina_1</a>
+    <a href="#Page2" id="nav3">Pagina_2</a>
+    <a href="#Page3" id="nav4">Pagina_3</a>
 
     <div class="dropdown" style="float: right">
         <button id="drpbutton" onclick="showDropdownMenu()" class="dropbtn">
@@ -159,6 +161,26 @@
             }
         }
     }
+
+    function showActivePage(){
+        var links = document.querySelectorAll('.topnav a');
+        var currentUrl = window.location.href;
+
+        for(var i=0; i< links.length; i++){
+            var link = links[i];
+            var linkUrl = link.href ;
+
+
+            if(currentUrl === linkUrl){
+                link.classList.add('active');
+                break;
+            }
+        }
+
+    }
+
+    window.addEventListener('load', showActivePage);
+
 </script>
 
 </body>

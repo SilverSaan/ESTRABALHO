@@ -43,7 +43,11 @@
             <table style="table-layout: auto; ">
                 <tr ng-repeat="x in usuarios |filter: {'nome': userSearch} | orderBy: 'numero'" ng-model="usuarios">
                     <td>{{x.nome}} - {{x.numero}}</td>
-                    <td><button class="btnselectastudent" id="btn{{x.id}}"></button></td>
+                    <td>
+                        <a href="<%=request.getContextPath()%>/AlunoInfo.jsp?id={{x.id}}">
+                            <button class="btnselectastudent" id="btn{{x.id}}"></button>
+                        </a>
+                    </td>
 
                 </tr>
             </table>
