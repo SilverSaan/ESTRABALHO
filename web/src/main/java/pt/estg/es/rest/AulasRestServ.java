@@ -5,15 +5,14 @@ import pt.estg.es.model.Presenca;
 import pt.estg.es.model.PresencaID;
 import pt.estg.es.model.Usuario;
 import pt.estgp.es.services.AulasServices;
+import pt.estgp.es.services.usuarioService;
 
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Path("/aula")
@@ -25,6 +24,9 @@ public class AulasRestServ {
 
     @Inject
     private AulasServices service;
+
+    @Inject
+    private usuarioService usuarioEJB;
 
     @GET
     @Path("/list")
@@ -108,6 +110,47 @@ public class AulasRestServ {
        return service.getAlunosPresentes(Aulaid);
 
     }
+    @POST
+    @Path("/{id:[0-9][0-9]*}/updatePresenca")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePresencas(@PathParam("id") long id, List<PresencaID> presencaIDSet){
+        Aulas aula = service.find(id);
+        Set<Presenca> presencaSet = new HashSet<>();
+
+        for (PresencaID prid: presencaIDSet) {
+            Usuario aluno = usuarioEJB.loadById(prid.getAlunoId());
+            Presenca presenca = new Presenca();
+            presenca.setId(prid);
+            presenca.setAluno(aluno);
+            presenca.setAula(aula);
+            presencaSet.add(presenca);
+
+        }
+
+        //aula.getPresencas().clear();
+
+        for(Presenca presenca: presencaSet){
+            Usuario aluno = presenca.getAluno();
+            usuarioEJB.removePresenca(id, aluno.getId());
+        }
+
+        service.updateAllPresencas(id, presencaSet);
+
+        for(Presenca presenca: presencaSet){
+            Usuario aluno = presenca.getAluno();
+            usuarioEJB.addPresenca(aluno.getId(), presenca);
+        }
 
 
+
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/testPresenca")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<Presenca> presencaList(@PathParam("id") long Aulaid){
+        return service.getAllPresencas(Aulaid);
+
+    }
 }

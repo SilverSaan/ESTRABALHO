@@ -72,18 +72,24 @@
             <div class="col-sm-10">
                 <div ng-if="isTeacher">
                     <h1>Alterar Lista de Presenças</h1>
-                    <ul ng-repeat="alunos in inscritos" ng-model="inscritos">
+                    <ul ng-repeat="alunos in inscritos" ng-model="listaPresencasMarcadas">
+
                         <li>
                             <label>
-                                <input type="checkbox"> {{alunos.nome}} - {{alunos.numero}}
+                                <input type="checkbox" ng-model="alunos.isPresent" ng-change="updateListaPresenca(alunos)">
+                                {{alunos.nome}} - {{alunos.numero}}
                             </label>
+                            {{aluno.isPresent = aluno.isPresent || false}}
                         </li>
+
                     </ul>
+                    <br>
+                    <p>Lembrar: Isso vai alterar a lista de Alunos por completo.</p><br>
+                    <button type="button" class="btn btn-default" ng-click="subPres()">Submeter Nova Lista</button>
                 </div>
             </div>
             <div class="col-sm-1"></div>
         </div>
-
     </div>
 
 
@@ -109,11 +115,52 @@
         console.log("id = " + classId);
         $scope.aula = null;
         $scope.presencas = null;
+        $scope.inscritos = null;
+
+        $scope.listaPresencasMarcadas = [];
+
+        $scope.presente = {
+            alunoId : 0,
+            aulaId : 0
+        }
+
+        $scope.updateListaPresenca = function (aluno){
+            var index = $scope.listaPresencasMarcadas.findIndex(function (p){
+                return p.alunoId === aluno.id;
+            });
+
+            if(aluno.isPresent){
+                if(index === -1){
+                    $scope.listaPresencasMarcadas.push({
+                        alunoId: aluno.id,
+                        aulaId: $scope.aula.id
+                    });
+                }else{
+                    if(index !== -1){
+                        $scope.listaPresencasMarcadas.splice(index, 1);
+                    }
+                }
+            }
+
+        };
+
+        $scope.subPres = function (){
+            $http.post("<%=request.getContextPath()%>/rs/aula/"+ classId + "/updatePresenca", $scope.listaPresencasMarcadas)
+            .then(function (response){
+                alert('Funcionou');
+            }, function (response){
+                alert('Nao funfou');
+            })
+        }
+
+
         //Como a usar location parece ser necessario fazer os links dessa forma...
         $scope.goToAlunoInfo = function(id) {
           $window.location.href ="<%=request.getContextPath()%>/AlunoInfo.jsp?id=" + id;
 
         };
+
+
 
         $http.get("<%=request.getContextPath()%>/rs/aula/"+ classId).then(function (response){
             $scope.aula = response.data;
@@ -129,6 +176,8 @@
         }, function (error){
             alert("error: aula not found");
         })
+
+
     })
 </script>
 

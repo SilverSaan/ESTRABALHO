@@ -16,8 +16,10 @@
  */
 package pt.estgp.es.services;
 
+import org.hibernate.Hibernate;
 import pt.estg.es.model.Aulas;
 import pt.estg.es.model.Presenca;
+import pt.estg.es.model.PresencaID;
 import pt.estg.es.model.Usuario;
 import pt.estg.es.security.AuditAnnotation;
 import pt.estg.es.security.Auditavel;
@@ -89,7 +91,6 @@ public class usuarioService {
         return list;
     }
 
-
     public void salvar(Usuario usuario) throws Exception {
         log.info("Registando " + usuario.getNome());
 
@@ -100,6 +101,11 @@ public class usuarioService {
         //obtainSessionFactory().getCurrentSession().save(member);
 
     }
+
+    public void edit(Usuario aluno){
+        em.merge(aluno);
+    }
+
 
     public Set<Aulas> getListaPresenca(Long userID){
         Usuario user = em.find(Usuario.class,userID);
@@ -116,5 +122,30 @@ public class usuarioService {
         return em.getEntityManagerFactory()
                 .unwrap(org.hibernate.SessionFactory.class);
     }
+
+    public void removePresenca(long aulaId, long alunoId) {
+        //em.getTransaction().begin();
+        Usuario usuario = loadById(alunoId);
+        if (usuario == null) {
+            return;
+        }
+        usuario.getPresencas().size();
+        usuario.getPresencas().removeIf(p -> p.getId().getAulaId() == aulaId);
+        //em.getTransaction().commit();
+        edit(usuario);
+    }
+
+    public void addPresenca(long alunoId, Presenca presenca) {
+        Usuario aluno = this.loadById(alunoId);
+        if(aluno == null){
+            return;
+        }
+        //Hibernate.initialize(aluno.getPresencas());
+        aluno.getPresencas().size();
+        aluno.getPresencas().add(presenca);
+        edit(aluno);
+    }
+
+
 
 }

@@ -13,6 +13,15 @@ public class PresencaID implements Serializable {
     @Column(name = "aula_id")
     long aulaId;
 
+    public PresencaID(){
+
+    }
+
+    public PresencaID(long aulaID, long alunoId) {
+        this.aulaId = aulaID;
+        this.alunoId = alunoId;
+    }
+
     public long getAlunoId() {
         return alunoId;
     }

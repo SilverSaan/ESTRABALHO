@@ -55,8 +55,8 @@ public class Usuario implements Serializable {
     @Column(name = "isdocente", columnDefinition = "boolean default false", nullable = false)
     private Boolean isTeacher = false;
 
-    @OneToMany(mappedBy = "aluno", fetch = FetchType.EAGER)
-            @JsonBackReference
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
+            @JsonIgnore
     Set<Presenca> presencas;
 
     @ManyToMany(fetch = FetchType.EAGER)

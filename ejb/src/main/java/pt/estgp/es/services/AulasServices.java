@@ -1,5 +1,6 @@
 package pt.estgp.es.services;
 
+import org.hibernate.Hibernate;
 import pt.estg.es.model.*;
 import pt.estg.es.security.AuditAnnotation;
 
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -59,6 +61,11 @@ public class AulasServices{
         em.remove(entity);
     }
 
+    public void edit(Aulas aula){
+        Aulas managedAula = em.merge(aula);
+        em.flush();
+    }
+
     /**
      * Eu não tenho ideia se isso vai funcionar - Pedro
      * Supostamente cria uma tabela de presença com o aluno e a aula
@@ -92,5 +99,36 @@ public class AulasServices{
         return presencas.stream().map(Presenca::getAluno).collect(Collectors.toList());
     }
 
+    public Set<Presenca> getAllPresencas(long aulaID){
+        Aulas aula = em.find(Aulas.class,aulaID);
+        return aula.getPresencas();
+    }
 
+    public void updateAllPresencas(long aulaID, Set<Presenca> presencas){
+        Aulas aula = find(aulaID);
+
+        if(aula == null){
+            return;
+        }
+        aula.getPresencas().size();
+
+        for(Presenca pre : aula.getPresencas()){
+            em.remove(pre);
+        }
+
+        aula.getPresencas().clear();
+
+
+        for (Presenca pre : presencas) {
+            pre.setId(new PresencaID(aulaID, pre.getId().getAlunoId()));
+            em.merge(pre);
+            aula.getPresencas().add(pre);
+        }
+        em.merge(aula);
+        em.flush();
+    }
+
+    public Presenca findPresenca(PresencaID id) {
+        return em.find(Presenca.class, id);
+    }
 }
