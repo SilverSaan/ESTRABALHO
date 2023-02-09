@@ -10,6 +10,7 @@ public abstract class fatoParticipacao_ {
 
 	public static volatile SingularAttribute<fatoParticipacao, Presenca> presenca;
 	public static volatile SingularAttribute<fatoParticipacao, Long> evaluation;
+	public static volatile SingularAttribute<fatoParticipacao, String> tipo;
 	public static volatile SingularAttribute<fatoParticipacao, Long> factID;
 	public static volatile SingularAttribute<fatoParticipacao, String> description;
 

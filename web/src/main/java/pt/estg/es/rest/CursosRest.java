@@ -3,6 +3,7 @@ package pt.estg.es.rest;
 import pt.estg.es.model.Cursos;
 import pt.estgp.es.services.CursosServices;
 
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@Path("/cursos")
+@RequestScoped
 public class CursosRest {
 
     @Inject
@@ -44,7 +47,7 @@ public class CursosRest {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public Response createAula(Cursos curso){
+    public Response create(Cursos curso){
         Response.ResponseBuilder builder;
 
         try {

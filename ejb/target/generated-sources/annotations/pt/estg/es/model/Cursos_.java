@@ -11,7 +11,7 @@ public abstract class Cursos_ {
 
 	public static volatile SingularAttribute<Cursos, Long> code;
 	public static volatile SetAttribute<Cursos, unidadeCurricular> ucs;
-	public static volatile SingularAttribute<Cursos, String> name;
+	public static volatile SingularAttribute<Cursos, String> nome;
 	public static volatile SingularAttribute<Cursos, Long> id;
 
 }

@@ -1,6 +1,6 @@
 package pt.estg.es.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -11,7 +11,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Aulas_ {
 
 	public static volatile SetAttribute<Aulas, Presenca> presencas;
-	public static volatile SingularAttribute<Aulas, Date> data;
+	public static volatile SingularAttribute<Aulas, String> sumario;
+	public static volatile SingularAttribute<Aulas, LocalDateTime> data;
 	public static volatile SingularAttribute<Aulas, unidadeCurricular> unidadeCurricular;
 	public static volatile SingularAttribute<Aulas, Long> id;
 

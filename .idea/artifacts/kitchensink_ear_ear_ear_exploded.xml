@@ -24,6 +24,9 @@
         <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar" output-file-name="jackson-mapper-asl.jar" />
         <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-jaxrs/1.9.13/jackson-jaxrs-1.9.13.jar" output-file-name="jackson-jaxrs.jar" />
         <element id="file-copy" path="$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-xc/1.9.13/jackson-xc-1.9.13.jar" output-file-name="jackson-xc.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.13.2/jackson-core-2.13.2.jar" output-file-name="jackson-core.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.13.2.2/jackson-databind-2.13.2.2.jar" output-file-name="jackson-databind.jar" />
+        <element id="file-copy" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.13.2/jackson-annotations-2.13.2.jar" output-file-name="jackson-annotations.jar" />
         <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/jwebunit/jwebunit-htmlunit-plugin/3.3/jwebunit-htmlunit-plugin-3.3.jar" output-file-name="jwebunit-htmlunit-plugin.jar" />
         <element id="file-copy" path="$MAVEN_REPOSITORY$/net/sourceforge/htmlunit/htmlunit/2.18/htmlunit-2.18.jar" output-file-name="htmlunit.jar" />
         <element id="file-copy" path="$MAVEN_REPOSITORY$/xalan/xalan/2.7.2/xalan-2.7.2.jar" output-file-name="xalan.jar" />

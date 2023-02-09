@@ -16,7 +16,7 @@
  */
 package pt.estg.es.rest;
 
-import pt.estg.es.model.Usuario;
+import pt.estg.es.model.*;
 import pt.estgp.es.services.usuarioService;
 
 import javax.enterprise.context.RequestScoped;
@@ -139,6 +139,43 @@ public class EsRestService {
         }
 
         return builder.build();
+    }
+
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Usuario verifyLogin(Login info){
+        return servico.validateLoginInformation(info.getUsername(), info.getPassword());
+    }
+
+
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/partic")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<Aulas> loadPresencas(@PathParam("id") long id){
+        return servico.getListaPresenca(id);
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/ucs")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<unidadeCurricular> loadUCInscrito(@PathParam("id") long id){
+        return servico.loadById(id).getUcs();
+    }
+
+    @POST
+    @Path("/fatos")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<fatoParticipacao> loadfatos(PresencaID id){
+
+        Set<fatoParticipacao> fatos;
+
+        fatos = servico.getFatosByPresenca(id);
+
+        return fatos;
     }
 
     /*

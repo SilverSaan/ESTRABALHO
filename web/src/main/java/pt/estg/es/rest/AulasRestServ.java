@@ -1,17 +1,18 @@
 package pt.estg.es.rest;
 
-import pt.estg.es.model.Aulas;
-import pt.estg.es.model.Presenca;
+import pt.estg.es.DTO.AulaDTO;
+import pt.estg.es.DTO.FatoDTO;
+import pt.estg.es.model.*;
+import pt.estg.es.model.Facts.FactTipo;
 import pt.estgp.es.services.AulasServices;
+import pt.estgp.es.services.usuarioService;
 
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Path("/aula")
@@ -23,6 +24,9 @@ public class AulasRestServ {
 
     @Inject
     private AulasServices service;
+
+    @Inject
+    private usuarioService usuarioEJB;
 
     @GET
     @Path("/list")
@@ -47,11 +51,12 @@ public class AulasRestServ {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public Response createAula(Aulas aula){
+    public Response createAula(AulaDTO aula){
         Response.ResponseBuilder builder;
 
+
         try {
-            service.create(aula);
+            service.createfromDTO(aula);
 
             builder = Response.ok();
         }catch (Exception e){
@@ -68,11 +73,11 @@ public class AulasRestServ {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/make-attendance")
-    public Response createAttendance(long aulaId, long AlunoId){
+    public Response createAttendance(PresencaID id){
         Response.ResponseBuilder builder;
 
         try {
-            service.makeAttendance(AlunoId, aulaId);
+            service.makeAttendance(id);
             builder = Response.ok();
         }catch (Exception e){
             Map<String, String> responseObject = new HashMap<>();
@@ -81,5 +86,91 @@ public class AulasRestServ {
         }
         return builder.build();
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/delete-Attendance")
+    public Response deleteAttendance(PresencaID presencaID){
+        Response.ResponseBuilder builder;
+
+        try {
+            service.deleteAttendance(presencaID);
+            builder = Response.ok();
+        }catch (Exception e){
+            Map<String, String> responseObject = new HashMap<>();
+            responseObject.put("Erro", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObject);
+        }
+        return builder.build();
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/presenca")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Usuario> alunosPresentes(@PathParam("id") long Aulaid){
+       return service.getAlunosPresentes(Aulaid);
+
+    }
+    @POST
+    @Path("/{id:[0-9][0-9]*}/updatePresenca")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePresencas(@PathParam("id") long id, List<PresencaID> presencaIDSet){
+        Aulas aula = service.find(id);
+        Set<Presenca> presencaSet = new HashSet<>();
+
+        for (PresencaID prid: presencaIDSet) {
+            Usuario aluno = usuarioEJB.loadById(prid.getAlunoId());
+            Presenca presenca = new Presenca();
+            presenca.setId(prid);
+            presenca.setAluno(aluno);
+            presenca.setAula(aula);
+            presencaSet.add(presenca);
+
+        }
+
+        //aula.getPresencas().clear();
+
+        for(Presenca presenca: presencaSet){
+            Usuario aluno = presenca.getAluno();
+            usuarioEJB.removePresenca(id, aluno.getId());
+        }
+
+        service.updateAllPresencas(id, presencaSet);
+
+        for(Presenca presenca: presencaSet){
+            Usuario aluno = presenca.getAluno();
+            usuarioEJB.addPresenca(aluno.getId(), presenca);
+        }
+
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}/testPresenca")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<Presenca> presencaList(@PathParam("id") long Aulaid){
+        return service.getAllPresencas(Aulaid);
+
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/criarFato")
+    public Response criarFatoemPresença(FatoDTO fatoParticipacao){
+        Response.ResponseBuilder builder;
+
+        try{
+            service.addFato(fatoParticipacao);
+            builder = Response.ok();
+        }catch (Exception e){
+            Map<String, String> responseObject = new HashMap<>();
+            responseObject.put("Erro", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObject);
+        }
+
+        return builder.build();
+    }
+
 
 }

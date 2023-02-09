@@ -1,14 +1,21 @@
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import pt.estg.es.DTO.UsuarioDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "uc")
 public class unidadeCurricular implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     @Column
@@ -24,6 +31,7 @@ public class unidadeCurricular implements Serializable {
     String nome;
 
     @ManyToMany(mappedBy = "ucs")
+    @JsonBackReference
     Set<Usuario> alunos;
 
     public long getId() {
@@ -73,4 +81,20 @@ public class unidadeCurricular implements Serializable {
     public void setCursoId(long cursoId) {
         this.cursoId = cursoId;
     }
+
+    @JsonIgnore
+    public Set<UsuarioDTO> getAlunosDTO(){
+        return this.alunos.stream().map(aluno->{
+            UsuarioDTO dto = new UsuarioDTO();
+            dto.setId(aluno.getId());
+            dto.setNome(aluno.getNome());
+            dto.setEmail(aluno.getEmail());
+            dto.setNumero(aluno.getNumero());
+            dto.setTeacher(aluno.getTeacher());
+            return dto;
+        }).collect(Collectors.toSet());
+    }
+
+
+
 }

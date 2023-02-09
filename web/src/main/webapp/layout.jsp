@@ -6,7 +6,7 @@
         <title>Teste do struts</title>
     </head>
     <body>
-        <tiles:insert attribute="body"/>
+    <tiles:insert attribute="body"/>
     </body>
 </html:html>
 

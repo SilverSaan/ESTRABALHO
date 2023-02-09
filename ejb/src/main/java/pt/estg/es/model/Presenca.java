@@ -1,6 +1,9 @@
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Presenca {
@@ -8,16 +11,21 @@ public class Presenca {
     @EmbeddedId
     PresencaID id;
 
-
     @ManyToOne
-            @MapsId("alunoId")
-            @JoinColumn(name = "aluno_id")
+    @MapsId("alunoId")
+    @JoinColumn(name = "aluno_id")
+    @JsonBackReference(value = "aluno_presenca")
     Usuario aluno;
 
     @ManyToOne
-            @MapsId("aulaId")
-            @JoinColumn(name = "aula_id")
+    @MapsId("aulaId")
+    @JoinColumn(name = "aula_id")
+    @JsonBackReference(value = "aula_presenca")
     Aulas aula;
+
+    @OneToMany(fetch = FetchType.LAZY)
+            @JsonBackReference
+    Set<fatoParticipacao> facts;
 
     public PresencaID getId() {
         return id;
@@ -41,5 +49,13 @@ public class Presenca {
 
     public void setAula(Aulas aula) {
         this.aula = aula;
+    }
+
+    public Set<fatoParticipacao> getFacts() {
+        return facts;
+    }
+
+    public void setFacts(Set<fatoParticipacao> facts) {
+        this.facts = facts;
     }
 }

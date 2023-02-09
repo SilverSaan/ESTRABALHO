@@ -16,9 +16,15 @@
  */
 package pt.estg.es.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -39,20 +45,26 @@ public class Usuario implements Serializable {
     @Column(name = "numero", nullable = false)
     private Integer numero;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Email
     @Column(name = "email")
+
     private String email;
 
     @Column(name = "isdocente", columnDefinition = "boolean default false", nullable = false)
     private Boolean isTeacher = false;
 
-    @OneToMany(mappedBy = "aluno")
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
+            @JsonIgnore
     Set<Presenca> presencas;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
             @JoinTable(name = "inscricoes",
             joinColumns = @JoinColumn(name = "aluno_id"),
             inverseJoinColumns = @JoinColumn(name = "uc_id"))
+            @JsonBackReference
     Set<unidadeCurricular> ucs;
 
     public Long getId() {
@@ -101,6 +113,22 @@ public class Usuario implements Serializable {
 
     public void setPresencas(Set<Presenca> presencas) {
         this.presencas = presencas;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<unidadeCurricular> getUcs() {
+        return ucs;
+    }
+
+    public void setUcs(Set<unidadeCurricular> ucs) {
+        this.ucs = ucs;
     }
 }
 

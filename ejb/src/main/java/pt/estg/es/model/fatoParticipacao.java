@@ -1,17 +1,26 @@
 package pt.estg.es.model;
 
+
+
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import pt.estg.es.model.Facts.FactTipo;
 import javax.persistence.*;
 import java.io.Serializable;
 
 
+
+
+
 //@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,name = "Fact_Disc", length = 5)
 @Entity
-public class fatoParticipacao {
+public class fatoParticipacao implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long factID;
 
     @ManyToOne()
+            @JsonManagedReference
     Presenca presenca;
 
     @Column
@@ -19,6 +28,9 @@ public class fatoParticipacao {
 
     @Column
     long evaluation;
+
+    @Column
+    String tipo;
 
 
     public long getFactID() {
@@ -51,5 +63,13 @@ public class fatoParticipacao {
 
     public void setEvaluation(long evaluation) {
         this.evaluation = evaluation;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

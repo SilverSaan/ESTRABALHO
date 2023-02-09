@@ -154,6 +154,11 @@
                 <scope>import</scope>
             </dependency>
 
+
+            <!--Tentativa de serializar a data -->
+
+
+
         </dependencies>
     </dependencyManagement>
 

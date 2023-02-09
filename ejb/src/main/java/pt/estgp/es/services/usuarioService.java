@@ -16,18 +16,25 @@
  */
 package pt.estgp.es.services;
 
-import pt.estg.es.model.Usuario;
+import org.hibernate.Hibernate;
+import pt.estg.es.model.*;
 import pt.estg.es.security.AuditAnnotation;
 import pt.estg.es.security.Auditavel;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.QueryHint;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 //import org.jboss.as.quickstarts.kitchensink_ear.model.Aluno_;
 
@@ -51,6 +58,7 @@ public class usuarioService {
 
 
     public Usuario loadById(Long id) {
+
         return em.find(Usuario.class, id);
     }
 
@@ -81,7 +89,6 @@ public class usuarioService {
         return list;
     }
 
-
     public void salvar(Usuario usuario) throws Exception {
         log.info("Registando " + usuario.getNome());
 
@@ -93,10 +100,61 @@ public class usuarioService {
 
     }
 
+    public void edit(Usuario aluno){
+        em.merge(aluno);
+    }
+
+
+    public Set<Aulas> getListaPresenca(Long userID){
+        Usuario user = em.find(Usuario.class,userID);
+        return user.getPresencas().stream().map(Presenca::getAula).collect(Collectors.toSet());
+    }
+
+
+    public Usuario validateLoginInformation(String username, String password){
+        return (Usuario) em.createQuery("SELECT u from Usuario u where u.email = :username and u.password = :password").
+                setParameter("username", username).setParameter("password", password).getSingleResult();
+    }
+
+
     public org.hibernate.SessionFactory obtainSessionFactory()
     {
         return em.getEntityManagerFactory()
                 .unwrap(org.hibernate.SessionFactory.class);
     }
+
+
+    public void removePresenca(long aulaId, long alunoId) {
+        //em.getTransaction().begin();
+        Usuario usuario = loadById(alunoId);
+        if (usuario == null) {
+            return;
+        }
+        usuario.getPresencas().size();
+        usuario.getPresencas().removeIf(p -> p.getId().getAulaId() == aulaId);
+        //em.getTransaction().commit();
+        edit(usuario);
+    }
+
+    public void addPresenca(long alunoId, Presenca presenca) {
+        Usuario aluno = this.loadById(alunoId);
+        if(aluno == null){
+            return;
+        }
+        //Hibernate.initialize(aluno.getPresencas());
+        aluno.getPresencas().size();
+        aluno.getPresencas().add(presenca);
+        edit(aluno);
+    }
+
+    public Set<fatoParticipacao> getFatosByPresenca(PresencaID id){
+        Presenca pres = em.find(Presenca.class, id);
+
+        pres.getFacts().size();
+        return pres.getFacts();
+
+    }
+
+
 
 }

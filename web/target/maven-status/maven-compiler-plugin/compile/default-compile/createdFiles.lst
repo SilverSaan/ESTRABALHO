@@ -1,6 +1,7 @@
 pt\estg\es\rest\EsRestService.class
 org\jboss\as\quickstarts\kitchensink_ear\rest\MemberResourceRESTService.class
 pt\estg\es\struts\ControllerStrutsDispatch.class
+pt\estg\es\rest\Login.class
 pt\estg\es\rest\UCRestService.class
 pt\estg\es\struts\FormStruts.class
 org\jboss\as\quickstarts\kitchensink_ear\rest\JaxRsActivator.class
