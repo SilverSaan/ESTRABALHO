@@ -24,36 +24,68 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/styles/Tables.css">
 </head>
 <body style="margin: 0;">
 
 <jsp:include page="navbar.jsp"></jsp:include>
 
-<div id="box" style="background-color: #D5D5D5; width: fit-content; padding: 10px; margin-left: 50px; margin-top: 50px; border-radius: 33px">
-    <div ng-app="alunoApp" ng-controller="alunoControl" ng-init="usuarios=null" style="justify-content: center; text-align: center">
-        <!-- Colocar um ng-if aqui depois, que cheque se o Usuario é professor -->
-        <br>
-        Procurar por Nome
-        <br>
-        <input type="text" ng-model="userSearch">
-        <p style="color: orange">Nome do Aluno</p>
-        <div class="tbl-content">
-            <table style="table-layout: auto; ">
-                <tr ng-repeat="x in usuarios |filter: {'nome': userSearch} | orderBy: 'numero'" ng-model="usuarios">
-                    <td>{{x.nome}} - {{x.numero}}</td>
-                    <td>
-                        <a href="<%=request.getContextPath()%>/AlunoInfo.jsp?id={{x.id}}">
-                            <button class="btnselectastudent" id="btn{{x.id}}"></button>
-                        </a>
-                    </td>
-
+<div class="container-fluid" ng-app="alunoApp" ng-controller="alunoControl">
+    <div class="row" ng-if="user.teacher">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <br>
+            <table style="width: 100%">
+                <thead>
+                <tr>
+                    <th style="width: 30%">Nome</th>
+                    <th style="width: 60%">Numero</th>
+                    <th style="width: 10%">Ver Perfil</th>
                 </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in usuarios">
+                    <td>{{x.nome}}</td>
+                    <td style="text-align: center">{{x.numero}}</td>
+                    <td style="text-align: center"><a href="AlunoInfo.jsp?id={{x.id}}" class="btn btn-success">GO</a></td>
+                </tr>
+                </tbody>
+
             </table>
+
+
         </div>
-        <br>
+        <div class="col-sm-1"></div>
+
     </div>
+
+    <div class="row" ng-if="!user.teacher">
+       <div class="col-sm-5">
+           <h1>Minhas Unidades Curriculares</h1>
+           <table>
+                <thead>
+                <tr>
+                    <th style="width: 60%">Unidade Curricular</th>
+                    <th style="width: 40%">Docente</th>
+                </tr>
+                </thead>
+               <tbody>
+               <tr ng-repeat="x in myucs">
+                   <td>{{x.nome}}</td>
+                   <td>{{x.docente.nome}}</td>
+               </tr>
+               </tbody>
+           </table>
+
+       </div>
+
+        <div class="col-sm-5">
+            <h1>Perfil</h1>
+            <a class="btn btn-success" href="AlunoInfo.jsp?id={{user.id}}">Ver Perfil de {{user.nome}}</a>
+        </div>
+
+    </div>
+
+
 </div>
 
 
@@ -71,14 +103,23 @@
     var app = angular.module('alunoApp', []);
 
     app.controller('alunoControl', function ($scope, $http){
+
+        $scope.user = JSON.parse(sessionStorage.getItem("user"));
+
+
         $http.get("<%=request.getContextPath()%>/rs/usuarios/list").then(function (response){
             $scope.usuarios = response.data.filter(function (usuarios){
                 return !usuarios.teacher;
 
             });
         })
-    })
 
+        $http.get("<%=request.getContextPath()%>/rs/usuarios/"+ $scope.user.id + "/ucs")
+            .then(function (response){
+                $scope.myucs = response.data;
+            })
+
+    })
 
 
 

@@ -87,6 +87,7 @@ public class UsuarioBdIT
     public void testRegister() throws Exception {
 
         Usuario a = new Usuario();
+        log.info("Entrou Aqui");
         a.setNome("Joao");
         a.setNumero(123);
         a.setEmail("joao@ipportalegre.pt");

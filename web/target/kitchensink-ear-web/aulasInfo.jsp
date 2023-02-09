@@ -23,7 +23,7 @@
             <div class="col-sm-8">
                 <h2>Aula de {{aula.unidadeCurricular.nome}}</h2>
                 <br>
-                <p>Data: {{aula.data.dayOfMonth}}/{{aula.data.monthValue}}/{{aula.data.year}}</p>
+                <p>Data: {{aula.data.dayOfMonth}}/{{aula.data.monthValue}}/{{aula.data.year}}  - {{aula.data.hour}}: {{aula.data.minute}}</p>
             </div>
 
             <div class="col-sm-4">
@@ -49,6 +49,7 @@
                             <th>Nome</th>
                             <th>Numero</th>
                             <th>Email</th>
+                            <th ng-if="isTeacher">Adicionar Fato</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,10 @@
                             </td>
                             <td>{{allumni.numero}}</td>
                             <td>{{allumni.email}}</td>
+                            <td ng-if="isTeacher"><button ng-click="setPresencaIDFato(allumni.id)" class="btn btn-success"
+                            data-toggle="modal" data-target="#modalFato">
+                                Adicionar Fato
+                            </button></td>
                         </tr>
                     </tbody>
 
@@ -72,14 +77,14 @@
             <div class="col-sm-10">
                 <div ng-if="isTeacher">
                     <h1>Alterar Lista de Presenças</h1>
-                    <ul ng-repeat="alunos in inscritos" ng-model="listaPresencasMarcadas">
+                    <ul ng-repeat="alunos in inscritos | orderBy: 'numero' " ng-model="listaPresencasMarcadas" ng-init="alunos.isPresent = false">
 
                         <li>
                             <label>
                                 <input type="checkbox" ng-model="alunos.isPresent" ng-change="updateListaPresenca(alunos)">
                                 {{alunos.nome}} - {{alunos.numero}}
                             </label>
-                            {{aluno.isPresent = aluno.isPresent || false}}
+
                         </li>
 
                     </ul>
@@ -90,7 +95,49 @@
             </div>
             <div class="col-sm-1"></div>
         </div>
+
+
+        <div id="modalFato" class="modal fade" role="dialog" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4>Adicionar Fato</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Tipo de Fato: </p> <br>
+                        <button class="btn" ng-click="setTipoFato('Atencao')">Atenção</button>
+                        <button class="btn" ng-click="setTipoFato('Participacao')">Participacao</button>
+                        <button class="btn" ng-click="setTipoFato('Curiosidade')">Curiosidade</button>
+                        <button class="btn" ng-click="setTipoFato('Comunicacao')">Comunicação</button>
+                        <button class="btn" ng-click="setTipoFato('Responsabilidade')">Responsabilidade</button>
+                        <br>
+                        <form>
+                            <input ng-model="novoFato.evaluation" type="radio" value="1" name="evaluati"> 1
+                            <input ng-model="novoFato.evaluation" type="radio" value="2" name="evaluati"> 2
+                            <input ng-model="novoFato.evaluation" type="radio" value="3" name="evaluati"> 3
+                            <input ng-model="novoFato.evaluation" type="radio" value="4" name="evaluati"> 4
+                            <input ng-model="novoFato.evaluation" type="radio" value="5" name="evaluati"> 5
+                        </form>
+
+                        <textarea rows="10" cols="20" ng-model="novoFato.description">
+
+                    </textarea>
+                        <br>
+                        <button class="btn btn-success" ng-click="printEstado()">Start</button>
+                        <button class="btn btn-danger" style="align-self: end" data-dismiss="modal">Fechar</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
+
+
 
 
 <script>
@@ -119,38 +166,67 @@
 
         $scope.listaPresencasMarcadas = [];
 
-        $scope.presente = {
-            alunoId : 0,
-            aulaId : 0
+        $scope.novoFato = {
+            description: null,
+            evaluation: null,
+            tipo : null,
+            presencaID : {
+                alunoId: null,
+                aulaId: null
+            }
+        }
+        $scope.printEstado = function (){
+            console.log($scope.novoFato);
+            console.log("HEY YA");
+
+            $http.post("<%=request.getContextPath()%>/rs/aula/criarFato", $scope.novoFato)
+            .then(function (response){
+                alert("Enviado com Sucesso");
+            }, function (error){
+                alert("Algo ocorreu em: \n " + error.data);
+            })
+
+        }
+
+        $scope.setPresencaIDFato = function (alunoID){
+
+            $scope.novoFato.presencaID = {
+                alunoId: alunoID,
+                aulaId: $scope.aula.id
+            }
+            console.log($scope.novoFato);
+        }
+
+        $scope.setTipoFato = function (string){
+            $scope.novoFato.tipo = string
         }
 
         $scope.updateListaPresenca = function (aluno){
-            var index = $scope.listaPresencasMarcadas.findIndex(function (p){
-                return p.alunoId === aluno.id;
-            });
-
-            if(aluno.isPresent){
-                if(index === -1){
-                    $scope.listaPresencasMarcadas.push({
-                        alunoId: aluno.id,
-                        aulaId: $scope.aula.id
-                    });
-                }else{
-                    if(index !== -1){
-                        $scope.listaPresencasMarcadas.splice(index, 1);
-                    }
+            if(!aluno.isPresent){
+                //var index = $scope.listaPresencasMarcadas.indexOf(aluno);
+                $scope.listaPresencasMarcadas = $scope.listaPresencasMarcadas.filter(function (presenca){
+                    return presenca.alunoId !== aluno.id;
+                });
+            }else{
+                idPresenca = {
+                    alunoId: aluno.id,
+                    aulaId: $scope.aula.id
                 }
+
+                $scope.listaPresencasMarcadas.push(idPresenca);
             }
 
         };
 
         $scope.subPres = function (){
-            $http.post("<%=request.getContextPath()%>/rs/aula/"+ classId + "/updatePresenca", $scope.listaPresencasMarcadas)
-            .then(function (response){
-                alert('Funcionou');
-            }, function (response){
-                alert('Nao funfou');
-            })
+            return $http.post("<%=request.getContextPath()%>/rs/aula/"+ classId + "/updatePresenca", $scope.listaPresencasMarcadas)
+                .then(function (response){
+                    return $http.get("<%=request.getContextPath()%>/rs/aula/"+ classId + "/presenca").then(function (response){
+                        $scope.presencas = response.data;
+                    })
+                }, function (error){
+                    alert("ERRO!!");
+                })
         }
 
 

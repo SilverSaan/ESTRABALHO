@@ -105,14 +105,14 @@
         .show  {display: block}
     </style>
 </head>
-<body>
+<body style="margin: 0px">
 <div class="topnav">
-    <a class="active" href="<%=request.getContextPath()%>/main.jsp" id="nav1">
+    <a href="<%=request.getContextPath()%>/main.jsp" id="nav1">
         Main Page
     </a>
-    <a href="#Page1" id="nav2">Pagina_1</a>
-    <a href="#Page2" id="nav3">Pagina_2</a>
-    <a href="#Page3" id="nav4">Pagina_3</a>
+    <a href="<%=request.getContextPath()%>/Listaucs.jsp" id="nav2">Lista de UCS</a>
+
+    <a href="<%=request.getContextPath()%>/Admin_Utils.jsp" id="nav4">Admin_Utils</a>
 
     <div class="dropdown" style="float: right">
         <button id="drpbutton" onclick="showDropdownMenu()" class="dropbtn">
@@ -120,7 +120,7 @@
         </button>
 
         <div class="dropdown-content">
-            <a href="#home">Home</a>
+            <a href="main.jsp">Home</a>
             <a href="#Logout" onclick="logout()">Logout</a>
         </div>
     </div>
@@ -178,6 +178,8 @@
         }
 
     }
+
+
 
     window.addEventListener('load', showActivePage);
 

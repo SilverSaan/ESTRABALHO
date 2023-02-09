@@ -16,10 +16,7 @@
  */
 package pt.estg.es.rest;
 
-import pt.estg.es.model.Aulas;
-import pt.estg.es.model.Presenca;
-import pt.estg.es.model.Usuario;
-import pt.estg.es.model.unidadeCurricular;
+import pt.estg.es.model.*;
 import pt.estgp.es.services.usuarioService;
 
 import javax.enterprise.context.RequestScoped;
@@ -166,6 +163,19 @@ public class EsRestService {
     @Produces(MediaType.APPLICATION_JSON)
     public Set<unidadeCurricular> loadUCInscrito(@PathParam("id") long id){
         return servico.loadById(id).getUcs();
+    }
+
+    @POST
+    @Path("/fatos")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Set<fatoParticipacao> loadfatos(PresencaID id){
+
+        Set<fatoParticipacao> fatos;
+
+        fatos = servico.getFatosByPresenca(id);
+
+        return fatos;
     }
 
     /*

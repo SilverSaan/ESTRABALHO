@@ -1,9 +1,9 @@
 package pt.estg.es.rest;
 
-import pt.estg.es.model.Aulas;
-import pt.estg.es.model.Presenca;
-import pt.estg.es.model.PresencaID;
-import pt.estg.es.model.Usuario;
+import pt.estg.es.DTO.AulaDTO;
+import pt.estg.es.DTO.FatoDTO;
+import pt.estg.es.model.*;
+import pt.estg.es.model.Facts.FactTipo;
 import pt.estgp.es.services.AulasServices;
 import pt.estgp.es.services.usuarioService;
 
@@ -51,11 +51,12 @@ public class AulasRestServ {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/create")
-    public Response createAula(Aulas aula){
+    public Response createAula(AulaDTO aula){
         Response.ResponseBuilder builder;
 
+
         try {
-            service.create(aula);
+            service.createfromDTO(aula);
 
             builder = Response.ok();
         }catch (Exception e){
@@ -141,8 +142,6 @@ public class AulasRestServ {
             usuarioEJB.addPresenca(aluno.getId(), presenca);
         }
 
-
-
         return Response.ok().build();
     }
 
@@ -153,4 +152,25 @@ public class AulasRestServ {
         return service.getAllPresencas(Aulaid);
 
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/criarFato")
+    public Response criarFatoemPresença(FatoDTO fatoParticipacao){
+        Response.ResponseBuilder builder;
+
+        try{
+            service.addFato(fatoParticipacao);
+            builder = Response.ok();
+        }catch (Exception e){
+            Map<String, String> responseObject = new HashMap<>();
+            responseObject.put("Erro", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObject);
+        }
+
+        return builder.build();
+    }
+
+
 }

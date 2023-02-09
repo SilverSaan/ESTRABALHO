@@ -1,23 +1,21 @@
 package pt.estg.es.model;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonView;
 
+import javax.enterprise.inject.Default;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "class")
+@NamedQuery(name= "aulasFindbyUcID", query = "SELECT a FROM Aulas a where a.unidadeCurricular.id = :id")
 public class Aulas implements Serializable {
 
     @Id
-    long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     /*
     @Column(name = "nome", nullable = false)
@@ -27,22 +25,22 @@ public class Aulas implements Serializable {
     unidadeCurricular unidadeCurricular;
 
     @OneToMany(mappedBy = "aula", fetch = FetchType.EAGER)
-            @JsonManagedReference
+            @JsonManagedReference(value = "aula_presenca")
     Set<Presenca> presencas;
 
 
     @Column(nullable = false)
-
     LocalDateTime data;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 765)
     String sumario;
 
-    public long getId() {
+    @GeneratedValue
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,4 +75,5 @@ public class Aulas implements Serializable {
     public void setSumario(String sumario) {
         this.sumario = sumario;
     }
+
 }

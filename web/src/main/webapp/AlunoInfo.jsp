@@ -18,7 +18,7 @@
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
 
-<div class="container-fluid" ng-app="profileApp" ng-model="Student" ng-init="Student = null" ng-controller="profileCtrl">
+<div class="container-fluid" ng-app="profileApp" ng-model="Student" ng-init="Student = null" ng-controller="profileCtrl" id="contain">
     <h1>Perfil do Aluno</h1>
     <div class="row">
         <div class="col-sm-8">
@@ -40,7 +40,7 @@
     <br/>
     <div class="row">
 
-        <div class="col-sm-8" style="height: 500px; overflow-y: scroll">
+        <div class="col-sm-6" style="max-height: 500px; overflow-y: scroll">
             <h3>Inscrições do Aluno</h3>
             <table class="table table-bordered table-hover table-striped" >
                 <thead>
@@ -61,7 +61,7 @@
         </div>
         <div class="col-sm-1"></div>
 
-        <div class="col-sm-3" style="height: 500px; overflow-y: scroll">
+        <div class="col-sm-5" style="max-height: 500px; overflow-y: scroll">
             <h3>Historico de Presenças</h3>
             <table class="table table-bordered table-hover" >
 
@@ -70,10 +70,11 @@
                     <th>Data da Aula</th>
                     <th>Unidade Curricular</th>
                     <th>Professor</th>
+                    <th>Checar Fatos</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="pres in Student.presencas">
+                <tr ng-repeat="pres in Student.presencas | orderBy: ['-data.year', '-data.monthValue','-data.dayOfMonth']">
                     <td>
                         <a ng-click="goToAulaInfo(pres.id)">
                         {{pres.data.dayOfMonth}}/{{pres.data.monthValue}}/{{pres.data.year}}
@@ -81,6 +82,9 @@
                     </td>
                     <td>{{pres.unidadeCurricular.nome}}</td>
                     <td>{{pres.unidadeCurricular.docente.nome}}</td>
+                    <td><button class="btn btn-success" ng-click="loadFatos(pres.id)" data-toggle="modal" data-target="#modalFatos">
+                        Ver Participacao
+                    </button></td>
 
                 </tr>
 
@@ -88,15 +92,44 @@
 
             </table>
         </div>
-
     </div>
 
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
 
+
+    <div id="modalFatos" class="modal fade" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>Fatos desse aluno</h4>
+                </div>
+
+                <div class="modal-body" style="max-height: 1100px">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Tipo de Fato</th>
+                            <th>Classificação</th>
+                            <th>Descrição</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="x in listaFatos">
+                            <td>{{x.tipo}}</td>
+                            <td>{{x.evaluation}}</td>
+                            <td>{{x.description}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-1"></div>
+
     </div>
 
 </div>
@@ -123,6 +156,30 @@
         $scope.testNum = 50;
         $scope.getNum = function (num){
             return new Array(num);
+        }
+
+        $scope.presencaID = {
+            alunoId : null,
+            aulaId : null
+        }
+
+        $scope.listaFatos = null;
+
+        $scope.loadFatos = function (id){
+            $scope.presencaID = {
+                alunoId: parseInt(userId),
+                aulaId: id
+            }
+
+            $http.post("<%=request.getContextPath()%>/rs/usuarios/fatos", $scope.presencaID)
+            .then(function (response){
+                $scope.listaFatos = response.data;
+                console.log($scope.listaFatos);
+            }, function (error){
+                alert(error);
+                console.log(error);
+            })
+
         }
 
         $scope.goToAulaInfo = function (id){

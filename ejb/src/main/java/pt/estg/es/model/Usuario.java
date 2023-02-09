@@ -50,6 +50,7 @@ public class Usuario implements Serializable {
 
     @Email
     @Column(name = "email")
+
     private String email;
 
     @Column(name = "isdocente", columnDefinition = "boolean default false", nullable = false)

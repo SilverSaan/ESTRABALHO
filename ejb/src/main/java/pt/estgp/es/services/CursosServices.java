@@ -1,8 +1,6 @@
 package pt.estgp.es.services;
 
-import pt.estg.es.model.Aulas;
 import pt.estg.es.model.Cursos;
-import pt.estg.es.model.unidadeCurricular;
 import pt.estg.es.security.AuditAnnotation;
 
 import javax.ejb.Stateless;
@@ -36,7 +34,7 @@ public class CursosServices {
 
     public void remove(long id) {
         Cursos entity = em.find(Cursos.class, id);
-        log.info("A Remover Curso" + entity.getName() + ": " + entity.getCode());
+        log.info("A Remover Curso" + entity.getNome() + ": " + entity.getCode());
         em.remove(entity);
     }
 
@@ -49,13 +47,13 @@ public class CursosServices {
         Cursos entity = em.find(Cursos.class, id);
         entity.setCode(incmng.getCode());
         entity.setId(incmng.getId());
-        entity.setName(incmng.getName());
+        entity.setNome(incmng.getNome());
         entity.setUcs(incmng.getUcs());
     }
 
 
     public void create(Cursos incmng) {
-        log.info("A Criar Curso " + incmng.getName());
+        log.info("A Criar Curso " + incmng.getNome());
         em.persist(incmng);
     }
 

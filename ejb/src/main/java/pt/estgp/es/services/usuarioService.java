@@ -17,10 +17,7 @@
 package pt.estgp.es.services;
 
 import org.hibernate.Hibernate;
-import pt.estg.es.model.Aulas;
-import pt.estg.es.model.Presenca;
-import pt.estg.es.model.PresencaID;
-import pt.estg.es.model.Usuario;
+import pt.estg.es.model.*;
 import pt.estg.es.security.AuditAnnotation;
 import pt.estg.es.security.Auditavel;
 
@@ -33,6 +30,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -112,16 +110,19 @@ public class usuarioService {
         return user.getPresencas().stream().map(Presenca::getAula).collect(Collectors.toSet());
     }
 
+
     public Usuario validateLoginInformation(String username, String password){
-        return (Usuario) em.createQuery("SELECT u from Usuario u where u.nome = :username and u.password = :password").
+        return (Usuario) em.createQuery("SELECT u from Usuario u where u.email = :username and u.password = :password").
                 setParameter("username", username).setParameter("password", password).getSingleResult();
     }
+
 
     public org.hibernate.SessionFactory obtainSessionFactory()
     {
         return em.getEntityManagerFactory()
                 .unwrap(org.hibernate.SessionFactory.class);
     }
+
 
     public void removePresenca(long aulaId, long alunoId) {
         //em.getTransaction().begin();
@@ -144,6 +145,14 @@ public class usuarioService {
         aluno.getPresencas().size();
         aluno.getPresencas().add(presenca);
         edit(aluno);
+    }
+
+    public Set<fatoParticipacao> getFatosByPresenca(PresencaID id){
+        Presenca pres = em.find(Presenca.class, id);
+
+        pres.getFacts().size();
+        return pres.getFacts();
+
     }
 
 

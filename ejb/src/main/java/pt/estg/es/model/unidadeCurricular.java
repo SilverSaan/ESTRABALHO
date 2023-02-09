@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class unidadeCurricular implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     @Column

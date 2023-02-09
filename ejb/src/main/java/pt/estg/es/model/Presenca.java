@@ -14,16 +14,17 @@ public class Presenca {
     @ManyToOne
     @MapsId("alunoId")
     @JoinColumn(name = "aluno_id")
-    @JsonBackReference
+    @JsonBackReference(value = "aluno_presenca")
     Usuario aluno;
 
     @ManyToOne
     @MapsId("aulaId")
     @JoinColumn(name = "aula_id")
-    @JsonBackReference
+    @JsonBackReference(value = "aula_presenca")
     Aulas aula;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
+            @JsonBackReference
     Set<fatoParticipacao> facts;
 
     public PresencaID getId() {
@@ -48,5 +49,13 @@ public class Presenca {
 
     public void setAula(Aulas aula) {
         this.aula = aula;
+    }
+
+    public Set<fatoParticipacao> getFacts() {
+        return facts;
+    }
+
+    public void setFacts(Set<fatoParticipacao> facts) {
+        this.facts = facts;
     }
 }

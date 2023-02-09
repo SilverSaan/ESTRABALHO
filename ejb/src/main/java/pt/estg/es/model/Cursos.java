@@ -1,25 +1,29 @@
 package pt.estg.es.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity(name = "Cursos")
 public class Cursos {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     @Column(name = "nome" , nullable = false)
-    String name;
+    String nome;
 
     @Column(name= "codigo", nullable = false)
     long code;
 
     @OneToMany(mappedBy = "cursoId")
     @Column(name = "ucs")
+            @JsonManagedReference
+            @JsonIgnore
     Set<unidadeCurricular> ucs;
 
     public long getId() {
@@ -30,13 +34,11 @@ public class Cursos {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setNome(String nome) {this.nome = nome;}
 
     public long getCode() {
         return code;
